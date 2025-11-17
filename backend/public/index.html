@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Générateur QCM PDF</title>
+</head>
+<body>
+  <h2>Générateur QCM PDF</h2>
+  <form id="pdfForm" enctype="multipart/form-data">
+    <input type="file" name="pdf" accept=".pdf" required />
+    <button type="submit">Générer QCM</button>
+  </form>
+
+  <div id="result" style="margin-top:20px;"></div>
+
+  <script>
+    const form = document.getElementById('pdfForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      resultDiv.innerHTML = "Génération en cours...";
+
+      try {
+        const res = await fetch('/api/qcm/generate', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.qcm) {
+          let questions = [];
+
+          if (Array.isArray(data.qcm)) {
+            questions = data.qcm;
+          } else if (data.qcm.questions && Array.isArray(data.qcm.questions)) {
+            questions = data.qcm.questions;
+          } else {
+            resultDiv.innerHTML = "Structure QCM inattendue :<br>" + JSON.stringify(data.qcm, null, 2);
+            return;
+          }
+
+          // Affichage en extrayant text des options et réponses
+          resultDiv.innerHTML = "<h3>Résultat QCM :</h3>" +
+            questions.map((q, i) => `
+              <div style="margin-bottom:15px;">
+                <strong>Q${i+1}: ${q.question}</strong>
+                <ul>
+                  ${q.options.map(o => `<li>${o.text || o}</li>`).join('')}
+                </ul>
+                <p><strong>Réponse:</strong> ${q.answer?.text || q.answer || "N/A"}</p>
+              </div>
+            `).join('');
+
+        } else {
+          resultDiv.innerHTML = "Erreur : " + JSON.stringify(data.error);
+        }
+      } catch (err) {
+        resultDiv.innerHTML = "Erreur : " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
