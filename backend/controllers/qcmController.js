@@ -7,15 +7,17 @@ exports.generateQCM = async (req, res) => {
     const fileBuffer = fs.readFileSync(req.file.path);
     const pdfData = await pdfParse(fileBuffer); 
     const text = pdfData.text;
+    const questionCount = Math.min(parseInt(req.body.questionCount) || 10, 30);
 
     const body = {
       contents: [
         {
           parts: [
             { 
-              text: `Tu es un expert en création de QCM. Génère UNIQUEMENT un QCM valide en JSON (strictement valide, parsable) à partir de ce texte. 
+              text: `Tu es un expert en création de QCM. Génère UNIQUEMENT un QCM valide en JSON (strictement valide, parsable) avec exactement ${questionCount} questions à partir de ce texte. 
 
 IMPORTANT: Retourne UNIQUEMENT du JSON valide, rien d'autre. Pas de texte avant ou après.
+IMPORTANT: Génère exactement ${questionCount} questions.
 
 Format JSON requis:
 {
