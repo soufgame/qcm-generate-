@@ -21,11 +21,11 @@
     }
 
     .header {
-      position: relative;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       padding: 30px;
       text-align: center;
+      position: relative;
     }
 
     .header h1 {
@@ -36,6 +36,30 @@
     .header p {
       font-size: 1.1em;
       opacity: 0.9;
+    }
+
+    /* refresh button */
+    .btn-refresh {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 1.25em;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+    }
+
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: rotate(180deg);
     }
 
     .content {
@@ -289,21 +313,68 @@
     }
 
     .loading {
-      text-align: center;
-      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 24px;
       color: #667eea;
-      font-size: 1.2em;
+      font-size: 1.05em;
     }
 
-    .error {
-      background: #f8d7da;
-      color: #721c24;
-      padding: 20px;
-      border-radius: 8px;
-      border-left: 4px solid #dc3545;
-      margin-bottom: 20px;
+    .loading.hidden {
+      display: none;
     }
 
+    /* Modern circular spinner */
+    .spinner {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner-svg {
+      animation: rotate 2s linear infinite;
+    }
+
+    .path {
+      stroke: #667eea;
+      stroke-linecap: round;
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: 0;
+      animation: dash 1.4s ease-in-out infinite;
+    }
+
+    .loading-text {
+      color: #4a5568;
+      font-size: 0.95em;
+    }
+
+    /* Animations */
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes dash {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+      50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+      }
+      100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -120;
+      }
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
       .header h1 {
         font-size: 1.5em;
@@ -324,27 +395,4 @@
 
     .hidden {
       display: none;
-    }
-
-    .btn-refresh {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid white;
-      color: white;
-      font-size: 1.5em;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-refresh:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(180deg);
     }
