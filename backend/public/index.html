@@ -3,60 +3,1513 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QCM Générateur PDF</title>
-  <link rel="stylesheet" href="index.css">
+  <title>Générateur QCM IA - Créez des Questionnaires en Secondes | Gratuit</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Animate.css for smooth animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --primary-light: #3b82f6;
+      --secondary: #0ea5e9;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --dark: #0f172a;
+      --dark-light: #1e293b;
+      --gray: #64748b;
+      --gray-light: #cbd5e1;
+      --gray-lighter: #f1f5f9;
+      --white: #ffffff;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+      --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.3);
+      --shadow-glow-lg: 0 0 40px rgba(37, 99, 235, 0.4);
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+      min-height: 100vh;
+      color: var(--dark);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Modern Background */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.6;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+      animation: patternMove 20s ease-in-out infinite;
+    }
+
+    @keyframes patternMove {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(20px, -20px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    /* Animated grid overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-image: 
+        linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      animation: gridMove 30s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1rem 0;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: var(--transition-smooth);
+    }
+
+    .navbar:hover {
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      font-size: 1.75rem;
+      filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.6));
+      animation: iconFloat 3s ease-in-out infinite;
+      transition: var(--transition);
+    }
+
+    .logo:hover .logo-icon {
+      transform: scale(1.1) rotate(5deg);
+      filter: drop-shadow(0 0 15px rgba(37, 99, 235, 0.8));
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .nav-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(37, 99, 235, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: 50px;
+      color: var(--secondary);
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+    }
+
+    .nav-badge:hover {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: rgba(37, 99, 235, 0.6);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(37, 99, 235, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(37, 99, 235, 0.4);
+      border-radius: 50%;
+      color: var(--secondary);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .refresh-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(37, 99, 235, 0.25);
+      border-color: rgba(37, 99, 235, 0.6);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .refresh-btn:hover::before {
+      width: 100%;
+      height: 100%;
+    }
+
+    .refresh-btn:active {
+      transform: translateY(0) scale(0.95);
+    }
+
+    .refresh-btn .refresh-icon {
+      position: relative;
+      z-index: 1;
+      transition: var(--transition);
+    }
+
+    .refresh-btn.refreshing .refresh-icon {
+      animation: rotateRefresh 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes rotateRefresh {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .refresh-btn:hover .refresh-icon {
+      filter: drop-shadow(0 0 8px rgba(37, 99, 235, 0.8));
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, #8b5cf6 100%);
+      background-size: 200% 200%;
+      animation: heroGradient 8s ease infinite;
+      border-radius: var(--radius-xl);
+      padding: 4rem 3rem;
+      text-align: center;
+      color: var(--white);
+      box-shadow: var(--shadow-xl), var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: var(--transition-smooth);
+    }
+
+    .hero:hover {
+      box-shadow: var(--shadow-xl), var(--shadow-glow-lg);
+      transform: translateY(-4px);
+    }
+
+    @keyframes heroGradient {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.3;
+      animation: patternRotate 20s linear infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      animation: shimmer 6s ease-in-out infinite;
+    }
+
+    @keyframes patternRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0; transform: translate(0, 0); }
+      50% { opacity: 1; transform: translate(-25%, -25%); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-badge:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      font-weight: 300;
+    }
+
+    .hero-features {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    /* Card */
+    .card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl), var(--shadow-glow), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    }
+
+    .card:hover::before {
+      left: 100%;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .card h3 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .card-subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .file-upload-wrapper {
+      position: relative;
+      border: 2px dashed var(--gray-light);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      background: linear-gradient(135deg, var(--gray-lighter) 0%, rgba(37, 99, 235, 0.02) 100%);
+      overflow: hidden;
+    }
+
+    .file-upload-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .file-upload-wrapper:hover {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.08) 100%);
+      transform: scale(1.01);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15);
+    }
+
+    .file-upload-wrapper:hover::before {
+      opacity: 1;
+    }
+
+    .file-upload-wrapper input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+    }
+
+    .file-upload-content {
+      pointer-events: none;
+    }
+
+    .file-upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+      color: var(--primary);
+    }
+
+    .file-name {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: white;
+      border-radius: var(--radius);
+      font-weight: 500;
+      color: var(--gray);
+      border: 1px solid var(--gray-light);
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--gray-lighter);
+      border-radius: var(--radius);
+    }
+
+    .input-group label {
+      flex: 1;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .input-group input[type="number"] {
+      width: 120px;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--gray-light);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+      transition: var(--transition);
+      background: var(--white);
+    }
+
+    .input-group input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15), var(--shadow-glow);
+      transform: scale(1.05);
+    }
+
+    .input-hint {
+      color: var(--gray);
+      font-size: 0.875rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-xl), var(--shadow-glow-lg);
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    }
+
+    .btn-primary:hover:not(:disabled)::before {
+      left: 100%;
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .btn-secondary {
+      background: var(--gray-light);
+      color: var(--dark);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray);
+      color: var(--white);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: var(--white);
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 4rem 2rem;
+      display: none;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 2rem;
+      border: 4px solid var(--gray-light);
+      border-top-color: var(--primary);
+      border-right-color: var(--secondary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+      position: relative;
+    }
+
+    .spinner::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: var(--primary);
+      opacity: 0.5;
+      animation: spin 1.5s linear infinite reverse;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    .loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .loading-step {
+      padding: 0.5rem 1rem;
+      background: var(--gray-lighter);
+      border-radius: 50px;
+      font-size: 0.875rem;
+      color: var(--gray);
+      font-weight: 500;
+      border: 1px solid var(--gray-light);
+    }
+
+    .loading-step.active {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    /* Question Card */
+    .question-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--primary);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(37, 99, 235, 0.1) inset;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .question-card:hover {
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      transform: translateX(6px) translateY(-2px);
+      border-left-color: var(--secondary);
+    }
+
+    .question-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .question-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .question-number {
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-number::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .question-card:hover .question-number {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .question-card:hover .question-number::before {
+      left: 100%;
+    }
+
+    .question-text {
+      flex: 1;
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .options {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, var(--gray-lighter) 0%, rgba(37, 99, 235, 0.02) 100%);
+      border: 2px solid transparent;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: var(--primary);
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .option:hover {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 165, 233, 0.05) 100%);
+      border-color: var(--primary);
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .option:hover::before {
+      transform: scaleY(1);
+    }
+
+    .option input[type="radio"] {
+      margin-right: 1rem;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .option label {
+      flex: 1;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .option.correct {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: var(--success);
+    }
+
+    .option.incorrect {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: var(--danger);
+    }
+
+    .option.neutral {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--warning);
+    }
+
+    .correct-answer {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 4px solid var(--success);
+      border-radius: var(--radius);
+      color: #065f46;
+      font-weight: 600;
+      display: none;
+    }
+
+    .correct-answer.active {
+      display: block;
+    }
+
+    /* Results */
+    .results {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      text-align: center;
+      box-shadow: var(--shadow-xl);
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .results.active {
+      display: block;
+    }
+
+    .results h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .result-item {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px) saturate(180%);
+      -webkit-backdrop-filter: blur(15px) saturate(180%);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-item::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .result-item:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .result-item:hover::before {
+      opacity: 1;
+    }
+
+    .result-label {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .result-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+    }
+
+    /* Error */
+    .error {
+      background: var(--danger);
+      color: white;
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      margin-bottom: 2rem;
+      font-weight: 500;
+      display: none;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .error.active {
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .hero {
+        padding: 3rem 2rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+      }
+
+      .nav-badge {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+      }
+
+      .nav-actions {
+        gap: 0.75rem;
+      }
+
+      .refresh-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="bg-pattern"></div>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">🧠</span>
+        <span>AI QCM Generator</span>
+      </div>
+      <div class="nav-actions">
+        <button class="refresh-btn" id="refreshBtn" title="Actualiser la page">
+          <span class="refresh-icon">🔄</span>
+        </button>
+        <div class="nav-badge">
+          <span class="status-dot"></span>
+          <span>IA Avancée</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
-    <div class="header">
-      <button class="btn-refresh" onclick="location.reload()" title="Rafraîchir la page">🔄</button>
-      <h1>📄 Générateur QCM PDF</h1>
-      <p>Uploadez votre PDF pour générer un QCM interactif</p>
+    <div class="hero animate__animated animate__fadeIn">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🚀</span>
+          <span>Révolution IA - Technologie de Pointe</span>
+        </div>
+        <h1>Créez des QCM Intelligents en Quelques Secondes</h1>
+        <p>Transformez instantanément n'importe quel PDF en questionnaire professionnel avec notre Intelligence Artificielle avancée. Gagnez des heures de travail et créez des évaluations de qualité supérieure en un clic !</p>
+        <div class="hero-features">
+          <div class="hero-feature">
+            <span>⚡</span>
+            <span>Génération ultra-rapide</span>
+          </div>
+          <div class="hero-feature">
+            <span>🎯</span>
+            <span>Questions intelligentes et ciblées</span>
+          </div>
+          <div class="hero-feature">
+            <span>🔒</span>
+            <span>Confidentialité garantie</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="content">
-      <div id="uploadSection" class="upload-section">
-        <h3>📤 Sélectionnez votre fichier PDF</h3>
-        <form id="pdfForm">
-          <div class="file-input-wrapper">
+    <div id="uploadSection" class="card animate__animated animate__fadeInUp">
+      <div class="card-header">
+        <span class="card-icon">📤</span>
+        <h3>Démarrez Maintenant - C'est Gratuit !</h3>
+        <p class="card-subtitle">Téléversez votre PDF et laissez notre IA révolutionnaire créer automatiquement un QCM personnalisé et professionnel en quelques instants</p>
+      </div>
+
+      <form id="pdfForm">
+        <div class="form-group">
+          <label class="form-label">Document PDF</label>
+          <div class="file-upload-wrapper">
             <input type="file" name="pdf" accept=".pdf" required id="fileInput" />
-            <label class="file-input-label" for="fileInput">Choisir un fichier PDF</label>
+            <div class="file-upload-content">
+              <span class="file-upload-icon">📁</span>
+              <div><strong>Cliquez pour sélectionner</strong> ou glissez-déposez votre fichier</div>
+              <div style="color: var(--gray); font-size: 0.875rem; margin-top: 0.5rem;">Formats acceptés : PDF (max 10MB) • Traitement instantané</div>
+            </div>
           </div>
-          <span class="file-name" id="fileName">Aucun fichier sélectionné</span>
-          
-          <div style="margin-top: 20px; padding: 15px; background: white; border-radius: 8px; display: inline-block;">
-            <label for="questionCount" style="color: #2d3748; font-weight: 600; margin-right: 10px;">Nombre de questions:</label>
-            <input type="number" id="questionCount" name="questionCount" min="1" max="30" value="10" style="width: 80px; padding: 8px; border: 2px solid #667eea; border-radius: 5px; font-size: 1em;">
-            <span style="color: #666; margin-left: 10px; font-size: 0.9em;">(Max: 30)</span>
-          </div>
-          
-          <div style="margin-top: 20px;">
-            <button type="submit" class="btn-generate">Générer le QCM</button>
-          </div>
-        </form>
-      </div>
-
-      <div id="loadingSection" class="loading hidden" aria-live="polite" aria-busy="false">
-        <div class="spinner" role="status" aria-hidden="true">
-          <svg class="spinner-svg" viewBox="0 0 50 50" width="56" height="56" aria-hidden="true">
-            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="4"></circle>
-          </svg>
+          <div class="file-name" id="fileName">Aucun fichier sélectionné - Prêt à générer votre QCM</div>
         </div>
-        <div class="loading-text">⏳ Génération du QCM en cours...</div>
-      </div>
 
-      <div id="errorSection" class="error hidden"></div>
+        <div class="form-group">
+          <label class="form-label">Personnalisez votre QCM</label>
+          <div class="input-group">
+            <label for="questionCount">Nombre de questions à générer:</label>
+            <input type="number" id="questionCount" name="questionCount" min="1" max="30" value="10">
+            <span class="input-hint">(Recommandé: 10-15 questions • Maximum: 30)</span>
+          </div>
+        </div>
 
-      <div id="results" class="results hidden"></div>
-      <div id="qcmForm"></div>
-      <div class="buttons" id="actionButtons" style="display: none;">
-        <button type="button" class="btn-verify" id="verifyBtn">Vérifier mes réponses</button>
-        <button type="button" class="btn-reset hidden" id="resetBtn">Réinitialiser</button>
-        <button type="button" class="btn-retry hidden" id="retryBtn">Refaire</button>
+        <button type="submit" class="btn btn-primary btn-full">
+          <span>🚀</span>
+          <span>Générer mon QCM Maintenant</span>
+        </button>
+      </form>
+    </div>
+
+    <div id="loadingSection" class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">🤖 Notre IA analyse intelligemment votre document...</div>
+      <div class="loading-steps">
+        <div class="loading-step active">📄 Extraction et analyse du contenu</div>
+        <div class="loading-step">🧠 Génération de questions intelligentes</div>
+        <div class="loading-step">✨ Optimisation et finalisation</div>
       </div>
+    </div>
+
+    <div id="errorSection" class="error"></div>
+
+    <div id="results" class="results"></div>
+
+    <div id="qcmForm"></div>
+
+    <div class="btn-group hidden" id="actionButtons">
+      <button type="button" class="btn btn-primary" id="verifyBtn">
+        <span>✓</span>
+        <span>Vérifier mes réponses maintenant</span>
+      </button>
+      <button type="button" class="btn btn-success hidden" id="resetBtn">
+        <span>↻</span>
+        <span>Recommencer le QCM</span>
+      </button>
+      <button type="button" class="btn btn-secondary hidden" id="retryBtn">
+        <span>🔄</span>
+        <span>Générer un nouveau QCM</span>
+      </button>
     </div>
   </div>
 
-  <script src="index.js"></script>
+  <script>
+    let questions = [];
+    let isVerified = false;
+
+    const form = document.getElementById('pdfForm');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const uploadSection = document.getElementById('uploadSection');
+    const loadingSection = document.getElementById('loadingSection');
+    const errorSection = document.getElementById('errorSection');
+    const qcmForm = document.getElementById('qcmForm');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const retryBtn = document.getElementById('retryBtn');
+    const resultsDiv = document.getElementById('results');
+    const actionButtons = document.getElementById('actionButtons');
+
+    function showLoading() {
+      loadingSection.classList.add('active');
+    }
+
+    function hideLoading() {
+      loadingSection.classList.remove('active');
+    }
+
+    function showError(message) {
+      errorSection.innerHTML = `<strong>⚠️ Oups !</strong> ${message}<br><small>Veuillez réessayer ou contacter le support si le problème persiste.</small>`;
+      errorSection.classList.add('active');
+      setTimeout(() => errorSection.classList.remove('active'), 8000);
+    }
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      fileName.textContent = file ? `📄 ${file.name} - Prêt à générer votre QCM !` : 'Aucun fichier sélectionné - Prêt à générer votre QCM';
+      if (file) {
+        fileName.style.color = 'var(--primary)';
+        fileName.style.fontWeight = '600';
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const questionCount = Math.min(parseInt(document.getElementById('questionCount').value || 10, 10), 30);
+      formData.append('questionCount', questionCount);
+
+      uploadSection.classList.add('hidden');
+      showLoading();
+      errorSection.classList.remove('active');
+      qcmForm.innerHTML = '';
+      resultsDiv.classList.remove('active');
+      actionButtons.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/qcm/generate', {
+          method: 'POST',
+          body: formData
+        });
+
+        const contentType = res.headers.get('content-type');
+        const text = await res.text();
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          throw new Error(`Le serveur n'a pas répondu correctement. Veuillez réessayer dans quelques instants.`);
+        }
+
+        hideLoading();
+
+        if (data.qcm) {
+          if (Array.isArray(data.qcm)) {
+            questions = data.qcm;
+          } else if (data.qcm.questions && Array.isArray(data.qcm.questions)) {
+            questions = data.qcm.questions;
+          } else {
+            throw new Error("Le format du QCM généré est incorrect. Veuillez réessayer avec un autre document.");
+          }
+
+          questions = questions.map(q => ({
+            question: q.question,
+            options: q.options.map(o => o.text || o),
+            correctIndex: q.options.findIndex(o => (o.text || o) === (q.answer?.text || q.answer))
+          }));
+
+          generateForm();
+          actionButtons.classList.remove('hidden');
+        } else {
+          throw new Error(data.error || "Impossible de générer le QCM. Assurez-vous que votre PDF contient du texte lisible et réessayez.");
+        }
+      } catch (err) {
+        hideLoading();
+        showError(err.message);
+        uploadSection.classList.remove('hidden');
+      }
+    });
+
+    function generateForm() {
+      const fragment = document.createDocumentFragment();
+      
+      questions.forEach((q, qIndex) => {
+        const questionCard = document.createElement('div');
+        questionCard.className = 'question-card animate__animated animate__fadeInUp';
+        questionCard.style.animationDelay = `${qIndex * 0.1}s`;
+        questionCard.id = `question-${qIndex}`;
+        
+        const questionHeader = document.createElement('div');
+        questionHeader.className = 'question-header';
+        
+        const questionNumber = document.createElement('span');
+        questionNumber.className = 'question-number';
+        questionNumber.textContent = `Q${qIndex + 1}`;
+        
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+        questionText.textContent = q.question;
+        
+        questionHeader.appendChild(questionNumber);
+        questionHeader.appendChild(questionText);
+        
+        const optionsDiv = document.createElement('div');
+        optionsDiv.className = 'options';
+        
+        q.options.forEach((opt, optIndex) => {
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'option';
+          optionDiv.dataset.qIndex = qIndex;
+          optionDiv.dataset.optIndex = optIndex;
+          
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = `q${qIndex}`;
+          input.value = optIndex;
+          input.id = `q${qIndex}_${optIndex}`;
+          
+          const label = document.createElement('label');
+          label.htmlFor = `q${qIndex}_${optIndex}`;
+          label.textContent = `${String.fromCharCode(65 + optIndex)}. ${opt}`;
+          
+          optionDiv.appendChild(input);
+          optionDiv.appendChild(label);
+          optionsDiv.appendChild(optionDiv);
+        });
+        
+        const answerDiv = document.createElement('div');
+        answerDiv.className = 'correct-answer';
+        answerDiv.id = `answer-${qIndex}`;
+        
+        questionCard.appendChild(questionHeader);
+        questionCard.appendChild(optionsDiv);
+        questionCard.appendChild(answerDiv);
+        fragment.appendChild(questionCard);
+      });
+      
+      qcmForm.innerHTML = '';
+      qcmForm.appendChild(fragment);
+    }
+
+    // Event Delegation for better performance
+    qcmForm.addEventListener('click', (e) => {
+      if (isVerified) return;
+      
+      const option = e.target.closest('.option');
+      if (!option) return;
+      
+      const input = option.querySelector('input[type="radio"]');
+      if (input && !input.disabled) {
+        input.checked = true;
+      }
+    });
+
+    function verifyAnswers() {
+      let correct = 0;
+      let incorrect = 0;
+      let unanswered = 0;
+
+      requestAnimationFrame(() => {
+        questions.forEach((q, qIndex) => {
+          const selected = document.querySelector(`input[name="q${qIndex}"]:checked`);
+          const questionCard = document.getElementById(`question-${qIndex}`);
+          const options = questionCard.querySelectorAll('.option');
+          const answerDiv = document.getElementById(`answer-${qIndex}`);
+
+          if (!selected) {
+            unanswered++;
+            if (options[q.correctIndex]) {
+              options[q.correctIndex].classList.add('neutral');
+            }
+          } else {
+            const selectedIndex = parseInt(selected.value);
+            if (selectedIndex === q.correctIndex) {
+              correct++;
+              options[selectedIndex].classList.add('correct');
+            } else {
+              incorrect++;
+              options[selectedIndex].classList.add('incorrect');
+              if (options[q.correctIndex]) {
+                options[q.correctIndex].classList.add('correct');
+              }
+            }
+          }
+          
+          if (answerDiv) {
+            answerDiv.innerHTML = `✅ <strong>Bonne réponse :</strong> ${String.fromCharCode(65 + q.correctIndex)}. ${q.options[q.correctIndex]}`;
+            answerDiv.classList.add('active');
+          }
+        });
+
+        const total = questions.length || 1;
+        const percentage = ((correct / total) * 100).toFixed(1);
+
+        const performanceMessage = percentage >= 80 ? '🎉 Excellent travail !' : percentage >= 60 ? '👍 Bon résultat !' : '💪 Continuez vos efforts !';
+        
+        resultsDiv.innerHTML = `
+          <h2>📊 Vos Résultats - Performance Analysée</h2>
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem; opacity: 0.95;">${performanceMessage}</p>
+          <div class="results-grid">
+            <div class="result-item">
+              <div class="result-label">Score Final</div>
+              <div class="result-value">${correct}/${total}</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">Taux de Réussite</div>
+              <div class="result-value">${percentage}%</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">✅ Réponses Correctes</div>
+              <div class="result-value">${correct}</div>
+            </div>
+            <div class="result-item">
+              <div class="result-label">❌ À Améliorer</div>
+              <div class="result-value">${incorrect}</div>
+            </div>
+          </div>
+        `;
+        resultsDiv.classList.add('active', 'animate__animated', 'animate__fadeInDown');
+
+        isVerified = true;
+        verifyBtn.classList.add('hidden');
+        resetBtn.classList.remove('hidden');
+        retryBtn.classList.remove('hidden');
+
+        qcmForm.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.disabled = true;
+        });
+
+        // Scroll to results
+        resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    function resetQuiz() {
+      requestAnimationFrame(() => {
+        isVerified = false;
+        resultsDiv.classList.remove('active');
+        verifyBtn.classList.remove('hidden');
+        resetBtn.classList.add('hidden');
+        retryBtn.classList.add('hidden');
+
+        qcmForm.querySelectorAll('input[type="radio"]').forEach(input => {
+          input.disabled = false;
+          input.checked = false;
+        });
+
+        qcmForm.querySelectorAll('.option').forEach(opt => {
+          opt.classList.remove('correct', 'incorrect', 'neutral');
+        });
+
+        qcmForm.querySelectorAll('.correct-answer').forEach(ans => {
+          ans.classList.remove('active');
+        });
+
+        // Scroll to first question
+        const firstQuestion = document.getElementById('question-0');
+        if (firstQuestion) {
+          firstQuestion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    verifyBtn.addEventListener('click', verifyAnswers);
+    resetBtn.addEventListener('click', resetQuiz);
+    retryBtn.addEventListener('click', resetQuiz);
+
+    // Drag and drop for file upload
+    const fileUploadWrapper = document.querySelector('.file-upload-wrapper');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      fileUploadWrapper.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      fileUploadWrapper.addEventListener(eventName, () => {
+        fileUploadWrapper.style.borderColor = 'var(--primary)';
+        fileUploadWrapper.style.background = 'rgba(37, 99, 235, 0.1)';
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      fileUploadWrapper.addEventListener(eventName, () => {
+        fileUploadWrapper.style.borderColor = '';
+        fileUploadWrapper.style.background = '';
+      }, false);
+    });
+
+    fileUploadWrapper.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && files[0].type === 'application/pdf') {
+        fileInput.files = files;
+        fileName.textContent = `📄 ${files[0].name} - Prêt à générer votre QCM !`;
+        fileName.style.color = 'var(--primary)';
+        fileName.style.fontWeight = '600';
+      }
+    }, false);
+
+    // Refresh button functionality
+    const refreshBtn = document.getElementById('refreshBtn');
+    refreshBtn.addEventListener('click', () => {
+      refreshBtn.classList.add('refreshing');
+      refreshBtn.style.pointerEvents = 'none';
+      
+      // Add a smooth fade out effect
+      document.body.style.transition = 'opacity 0.3s ease';
+      document.body.style.opacity = '0.7';
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    });
+  </script>
 </body>
 </html>

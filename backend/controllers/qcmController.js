@@ -14,28 +14,36 @@ exports.generateQCM = async (req, res) => {
         {
           parts: [
             { 
-              text: `Tu es un expert en création de QCM. Génère UNIQUEMENT un QCM valide en JSON (strictement valide, parsable) avec exactement ${questionCount} questions à partir de ce texte. 
+              text: `Tu es un expert en création de QCM. Génère UNIQUEMENT un QCM en JSON strictement valide et parsable, contenant exactement ${questionCount} questions basées UNIQUEMENT sur le contenu réel du document fourni.
 
-IMPORTANT: Retourne UNIQUEMENT du JSON valide, rien d'autre. Pas de texte avant ou après.
-IMPORTANT: Génère exactement ${questionCount} questions.
+⚠️ RÈGLES IMPORTANTES :
+- Génère des questions uniquement sur les objectifs, concepts, idées ou points clairement mentionnés dans le document.
+- Aucune question ne doit porter sur des informations absentes, inventées ou extrapolées du document.
+- INTERDIT : questions vagues, générales, hypothétiques ou non présentes dans le texte.
+- Chaque question doit aider à COMPRENDRE le document, pas à le mémoriser mot à mot.
+- Le contenu doit refléter fidèlement les objectifs ou thèmes réels du PDF.
 
-Format JSON requis:
+⚠️ SORTIE OBLIGATOIRE :
+Retourne UNIQUEMENT du JSON valide, aucun texte avant ou après.
+
+Format JSON obligatoire :
 {
   "questions": [
     {
-      "question": "Texte de la question?",
+      "question": "Texte de la question basée sur un objectif du document",
       "options": [
         {"text": "Option A"},
         {"text": "Option B"},
         {"text": "Option C"},
         {"text": "Option D"}
       ],
-      "answer": {"text": "La bonne réponse"}
+      "answer": {"text": "Option correcte"}
     }
   ]
 }
 
-Texte du PDF:
+Texte du PDF :
+
 ${text}` 
             }
           ],
